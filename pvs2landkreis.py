@@ -2,7 +2,6 @@ import geopandas as gpd
 import glob
 import pandas as pd
 from shapely import wkt
-from shapely.errors import WKTReadingError
 
 #SOURCE: https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg1/ (Shapefile)
 #DESCRIPTION https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/verwaltungskarten/verwaltungsgrenzen/index.html
@@ -31,7 +30,7 @@ for i in range(len(liste_key_kreis)):
         helper_df_sjoin = return_df[return_df['GN'] == liste_key_kreis[i]] #filtering of joined DF for a specific Landkreis
         helper_df_pv_filtered = pv_all.iloc[helper_df_sjoin.index, :] #filtering of whole segmented PVs dataframe for the lines which lie in the Landkreis
         helper_df_pv_filtered['Landkreis'] = liste_key_kreis[i] #add Landkreis information
-        helper_df_pv_filtered.to_csv('/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
+        helper_df_pv_filtered.to_csv('/Users/benni/PycharmProjects/geospatial_tools/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
         if liste_key_kreis[i] == 'Kleve':
             helper_df_pv_filtered = helper_df_pv_filtered[helper_df_pv_filtered['polygon_coords'] != 'POLYGON ((6.341371801241112 51.82340640781572, 6.341(8.070480264504688, 51.11216465078038, 8.07391834953523, 51.114323022634586)']
         geometry = gpd.GeoSeries(helper_df_pv_filtered['polygon_coords']).apply(wkt.loads)
