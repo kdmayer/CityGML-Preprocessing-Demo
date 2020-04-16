@@ -42,7 +42,8 @@ for i in range(len(liste_key_kreis)):
         helper_df_pv_filtered['geometry'] = pd.Series(geometrys)
         helper_df_pv_filtered = helper_df_pv_filtered[helper_df_pv_filtered['geometry'] != 'corrupted geometry']
         geometry = gpd.GeoSeries(helper_df_pv_filtered['geometry'])
-        helper_gpd_pv_filtered = gpd.GeoDataFrame(helper_df_pv_filtered[['identifier', 'PV_coords', 'Landkreis']], crs={'init': 'epsg:4326'})
+        helper_gpd_pv_filtered = gpd.GeoDataFrame(helper_df_pv_filtered[['identifier', 'PV_coords', 'Landkreis']], crs={'init': 'epsg:4326'},
+                                                  geometry=geometry)
         helper_gpd_pv_filtered.to_file(driver='ESRI Shapefile', filename="/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered_shapefiles/PV_Landkreis_{}.shp".format(liste_key_kreis[i]))
     except ValueError as e:
         print(e)
