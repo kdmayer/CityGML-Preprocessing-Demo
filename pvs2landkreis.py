@@ -17,15 +17,15 @@ for file in glob.glob(path + '*.csv'):
 
 pv_all = pv_all.reset_index(drop = True)
 
-geometry = gpd.GeoSeries(pv_all['PV_coords'].apply(wkt.loads))
-pv_all_points = gpd.GeoDataFrame(geometry = geometry, crs = {'init': 'epsg:4326'})
+geometry = gpd.GeoSeries(pv_all['PV_coords'].apply(wkt.loads)) #string parsing of coordinates
+pv_all_points = gpd.GeoDataFrame(geometry = geometry, crs = {'init': 'epsg:4326'}) #creating center image point geometry
 
-return_df = gpd.sjoin(pv_all_points, landkreise, how = 'inner', op = 'within')
+return_df = gpd.sjoin(pv_all_points, landkreise, how = 'inner', op = 'within') #spatial join to map image centroids with "Landkreis" in North-Rhine Westphalia
 
 liste_key_kreis = landkreise['GN'].values.tolist()
 
 for i in range(len(liste_key_kreis)):
-    helper_df_sjoin = return_df[return_df['GN'] == liste_key_kreis[i]]
-    helper_df_pv_filtered = pv_all.iloc[helper_df_sjoin.index, :]
-    helper_df_pv_filtered['Landkreis'] = liste_key_kreis[i]
-    helper_df_pv_filtered.to_csv('PV_Landkreis_{}'.format(liste_key_kreis[i]))
+    helper_df_sjoin = return_df[return_df['GN'] == liste_key_kreis[i]] #filtering of joined DF for a specific Landkreis
+    helper_df_pv_filtered = pv_all.iloc[helper_df_sjoin.index, :] #filtering of whole segmented PVs dataframe for the lines which lie in the Landkreis
+    helper_df_pv_filtered['Landkreis'] = liste_key_kreis[i] #add Landkreis information
+    helper_df_pv_filtered.to_csv('/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
