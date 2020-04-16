@@ -19,7 +19,7 @@ for i in range(len(adressen)):
             print(line)
             time.sleep(2)
     except (Exception, GeocoderQuotaExceeded, GeocoderTimedOut) as e:
-        print(e)
+        print('Exception',e)
         with open('./coords.csv', "a") as csv_file:
             writer = csv.writer(csv_file, lineterminator="\n")
             writer.writerow((0,0))
