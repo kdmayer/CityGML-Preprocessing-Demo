@@ -29,3 +29,6 @@ for i in range(len(liste_key_kreis)):
     helper_df_pv_filtered = pv_all.iloc[helper_df_sjoin.index, :] #filtering of whole segmented PVs dataframe for the lines which lie in the Landkreis
     helper_df_pv_filtered['Landkreis'] = liste_key_kreis[i] #add Landkreis information
     helper_df_pv_filtered.to_csv('/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
+    geometry = gpd.GeoSeries(helper_df_pv_filtered['polygon_coords']).apply(wkt.loads)
+    helper_gpd_pv_filtered = gpd.GeoDataFrame(helper_df_pv_filtered, geometry=geometry, crs={'init': 'epsg:4326'})
+    helper_gpd_pv_filtered.to_file(driver='ESRI Shapefile', filename="/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered_shapefiles/PV_Landkreis_{}.shp".format(liste_key_kreis[i]))
