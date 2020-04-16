@@ -6,7 +6,6 @@ import time
 import os
 
 bnetzmstr_nrw = pd.read_csv('/Users/benni/PycharmProjects/DeepSolar_3D/3d_data/bnetzmstr_nrw_filtered.csv', sep = ';')
-#bnetzmstr_nrw['Standort'].str.extract(r'(?P<Street>\D+)\s?(?P<Number>\d+\S*)?\s(?P<Postal>\d{5})\s(?P<City>\D+)$')
 adressen = bnetzmstr_nrw['Standort'].values.tolist()
 
 if os.path.exists("coords.csv"):
