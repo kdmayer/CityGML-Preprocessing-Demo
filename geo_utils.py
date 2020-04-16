@@ -9,6 +9,7 @@ from scipy.spatial import cKDTree
 import geopandas as gpd
 import geopy.distance
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, GeocoderQuotaExceeded
 
 #--Projection space
 inProj = Proj(init='epsg:25832')
@@ -45,6 +46,7 @@ def get_coordinates(address, timeout=5):
     if not location:
         return None, None
     return location.latitude, location.longitude
+
 
 def ckdnearest(gdA, gdB):
     """

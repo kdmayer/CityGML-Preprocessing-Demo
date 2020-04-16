@@ -32,18 +32,11 @@ for i in range(len(liste_key_kreis)):
         helper_df_pv_filtered = pv_all.iloc[helper_df_sjoin.index, :] #filtering of whole segmented PVs dataframe for the lines which lie in the Landkreis
         helper_df_pv_filtered['Landkreis'] = liste_key_kreis[i] #add Landkreis information
         helper_df_pv_filtered.to_csv('/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
-        geometry_list = helper_df_pv_filtered['polygon_coords'].values.tolist()
-        geometrys = []
-        for geometry in geometry_list:
-            try:
-                geometrys.append(wkt.loads(geometry))
-            except WKTReadingError:
-                geometrys.append('corrupted geometry')
-        helper_df_pv_filtered['geometry'] = pd.Series(geometrys)
-        helper_df_pv_filtered = helper_df_pv_filtered[helper_df_pv_filtered['geometry'] != 'corrupted geometry']
-        geometry = gpd.GeoSeries(helper_df_pv_filtered['geometry'])
+        if liste_key_kreis[i] == 'Kleve':
+            helper_df_pv_filtered = helper_df_pv_filtered[helper_df_pv_filtered['polygon_coords'] != 'POLYGON ((6.341371801241112 51.82340640781572, 6.341(8.070480264504688, 51.11216465078038, 8.07391834953523, 51.114323022634586)']
+        geometry = gpd.GeoSeries(helper_df_pv_filtered['polygon_coords']).apply(wkt.loads)
         helper_gpd_pv_filtered = gpd.GeoDataFrame(helper_df_pv_filtered[['identifier', 'PV_coords', 'Landkreis']], crs={'init': 'epsg:4326'},
                                                   geometry=geometry)
-        helper_gpd_pv_filtered.to_file(driver='ESRI Shapefile', filename="/Users/benni/Desktop/AWS_OpenNRW/Landkreise_filtered_shapefiles/PV_Landkreis_{}.shp".format(liste_key_kreis[i]))
+        helper_gpd_pv_filtered.to_file(driver='ESRI Shapefile', filename="/Users/benni/PycharmProjects/geospatial_tools/AWS_OpenNRW/Landkreise_filtered_shapefiles/PV_Landkreis_{}.shp".format(liste_key_kreis[i]))
     except ValueError as e:
         print(e)

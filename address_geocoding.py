@@ -1,7 +1,6 @@
 import pandas as pd
 from geo_utils import get_coordinates
 import csv
-import numpy as np
 from geopy.exc import GeocoderTimedOut, GeocoderQuotaExceeded
 import time
 import os
@@ -30,6 +29,6 @@ for i in range(len(adressen)):
         print(e)
         with open('./coords.csv', "a") as csv_file:
             writer = csv.writer(csv_file, lineterminator="\n")
-            writer.writerow((0,0))
+            writer.writerow(None,None)
         time.sleep(10)
         continue
