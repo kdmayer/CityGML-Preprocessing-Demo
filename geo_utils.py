@@ -8,6 +8,8 @@ import pandas as pd
 from scipy.spatial import cKDTree
 import geopandas as gpd
 import geopy.distance
+from geopy.geocoders import Nominatim
+
 #--Projection space
 inProj = Proj(init='epsg:25832')
 outProj = Proj(init='epsg:4326')
@@ -24,6 +26,25 @@ ns_xLink = 'http://www.w3.org/1999/xlink'
 ns_xsi = 'http://www.w3.org/2001/XMLSchema-instance'
 
 
+_geolocator = Nominatim(user_agent='b@abc-rausch.de')
+
+def get_coordinates(address, timeout=5):
+    """
+    Geolocate an address.
+
+    Returns the latitude and longitude of the given address using
+    OpenStreetMap's Nominatim service. If the coordinates of the
+    address cannot be found then ``(None, None)`` is returned.
+
+    As per Nominatim's terms of service this function is rate limited
+    to at most one call per second.
+
+    ``timeout`` gives the timeout in seconds.
+    """
+    location = _geolocator.geocode(address, timeout=timeout)
+    if not location:
+        return None, None
+    return location.latitude, location.longitude
 
 def ckdnearest(gdA, gdB):
     """
