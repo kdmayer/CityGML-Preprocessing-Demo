@@ -9,7 +9,7 @@ bnetzmstr_nrw = pd.read_csv('/Users/benni/PycharmProjects/DeepSolar_3D/3d_data/b
 adressen = bnetzmstr_nrw['Standort'].values.tolist()
 
 if os.path.exists("coords.csv"):
-    coords = pd.read_csv('coords.csv', names = ['y','x'])
+    coords = pd.read_csv('coords.csv')
     adressen = adressen[coords.shape[0]:]
 else:
     print('No coords.csv in directory - geocoding starts')
