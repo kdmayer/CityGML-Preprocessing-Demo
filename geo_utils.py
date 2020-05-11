@@ -56,7 +56,7 @@ def ckdnearest(gdA, gdB):
     DataFrames gdA index!
     :param gdA: must contain a shapely Point geometry column
     :param gdB: must contain a shapely Point geometry column
-    :return: concatenated GeoPandas.DataFrame containing all columns of both DataFrames excluding gdA's geometry plus distance in degrees
+    :return: concatenated GeoPandas.DataFrame containing all columns of both DataFrames excluding gdB's geometry plus distance in degrees
     """
     nA = np.array(list(zip(gdA.geometry.x, gdA.geometry.y)))
     nB = np.array(list(zip(gdB.geometry.x, gdB.geometry.y)))
