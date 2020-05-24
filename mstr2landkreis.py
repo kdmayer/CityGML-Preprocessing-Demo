@@ -42,7 +42,7 @@ for zone in sorted(admin_zones):
             del adress_helper['rounded']
             mstr_bottrop_helper_corrected = mstr_bottrop_helper_corrected.append(adress_helper)
         print(mstr_bottrop_helper_corrected.shape)
-        mstr_bottrop_helper_corrected.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone))
+        mstr_bottrop_helper_corrected.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone), encoding = 'ISO-8859-1')
     else:
         mstr_geocoded_helper.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone), encoding = 'ISO-8859-1')
 
