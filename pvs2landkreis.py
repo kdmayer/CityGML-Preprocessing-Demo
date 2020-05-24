@@ -14,6 +14,10 @@ landkreise = landkreise[['GN', 'geometry']]
 pv_all = pd.DataFrame()
 path = 'AWS_OpenNRW/'
 for file in glob.glob(path + '*.csv'): #read in of all segmented PV polygon files in the defined path
+    '''
+    this loop takes very long and requires large computing capacities
+    only execute this code if necessary
+    '''
     print(file)
     pv_helper = pd.read_csv(file, sep = '\t', usecols = [1,2], header = None) #only use relevant cols to reduce memory required
     pv_all = pv_all.append(pv_helper)
@@ -39,7 +43,7 @@ for i in range(len(liste_key_kreis)): #creating PV polygon file per administrati
         helper_df_sjoin = return_df[return_df['GN'] == liste_key_kreis[i]] #filtering of joined DF for a specific Landkreis
         pd.DataFrame(helper_df_sjoin).to_csv('/Users/benni/PycharmProjects/geospatial_tools/AWS_OpenNRW/Landkreise_filtered/PV_Landkreis_{}.csv'.format(liste_key_kreis[i])) #save as csv
         print('Shape:', helper_df_sjoin.shape[0])
-        helper_df_sjoin.geometry = gpd.GeoSeries(helper_df_sjoin['polygon_coords'].apply(wkt.loads))
+        helper_df_sjoin.geometry = gpd.GeoSeries(helper_df_sjoin['polygon_coords'].apply(wkt.loads))#convert string to polygon
         del helper_df_sjoin['polygon_coords']
         duplicate_geometry = helper_df_sjoin.geometry #helper GeoSeries for duplicate dropping
         duplicate_geometry = duplicate_geometry.centroid #using centroid of respective polygon for duplicate search
