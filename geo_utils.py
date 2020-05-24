@@ -27,7 +27,7 @@ ns_xLink = 'http://www.w3.org/1999/xlink'
 ns_xsi = 'http://www.w3.org/2001/XMLSchema-instance'
 
 
-_geolocator = Nominatim(user_agent='b@abc-rausch.de')
+_geolocator = Nominatim(user_agent='email@host.de')#if many requests are sent it is important to specify the email address here
 
 def get_coordinates(address, timeout=5):
     """
