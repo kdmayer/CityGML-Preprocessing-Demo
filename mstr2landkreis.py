@@ -34,11 +34,12 @@ for zone in sorted(admin_zones):
     mstr_bottrop_helper_corrected = pd.DataFrame()
     print(mstr_geocoded_helper.shape)
     #fitler most likely corrupted entries, set variable in the beginning; filtering is slow
+    #FILTER: filters entries with the same installation capacity installed at the same address
     if filtering:
         for adresse in adressen:
             adress_helper = mstr_geocoded_helper[mstr_geocoded_helper['Standort'] == adresse]
             adress_helper['rounded'] = round(adress_helper['InstallierteLeistung'])
-            adress_helper = adress_helper.drop_duplicates('rounded') #filter entries at the same address with the same installation capacity
+            adress_helper = adress_helper.drop_duplicates('rounded')
             del adress_helper['rounded']
             mstr_bottrop_helper_corrected = mstr_bottrop_helper_corrected.append(adress_helper)
         print(mstr_bottrop_helper_corrected.shape)
