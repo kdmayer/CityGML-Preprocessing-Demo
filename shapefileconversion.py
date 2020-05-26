@@ -20,7 +20,7 @@ def converter(df, col_name = 'RooftopPolygon_2d', prefix = 'nan', city = 'nan', 
     gdf = gdf[['Area', 'Azimuth', 'Building_ID', 'City',
        'PostalCode', 'RoofTopID', 'RooftopType',
         'Street', 'StreetNumber', 'Tilt', 'geometry']]
-    #add missing addresses to dataframe
+    #for missing addresses find the nearest address in dataframe and use it as a proxy
     gdf = add_missing_addresses_to_rooftopdata(gdf)
     #create shapefile
     gdf.to_file(driver='ESRI Shapefile',
@@ -33,5 +33,6 @@ if __name__ == "__main__":
     for file in glob.glob('*.csv'):
         rooftopPolygonDF = pd.read_csv(DIRECTORY + file)
         city = file.split('_')[1][:-4]
+        #convert CSV rooftopfile to shapefile, uses 2D rooftopPolygon as geometry; do not change this in the initialization of the function
         converter(rooftopPolygonDF, prefix = 'polygon', city = city, crs = CRS)
         print('Processed {}'.format(file))
