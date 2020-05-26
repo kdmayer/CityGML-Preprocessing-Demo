@@ -31,7 +31,7 @@ for zone in sorted(admin_zones):
     print(zone)
     mstr_geocoded_helper = mstr_geocoded[mstr_geocoded.GN == zone]
     adressen = mstr_geocoded_helper.Standort.unique().tolist()
-    mstr_bottrop_helper_corrected = pd.DataFrame()
+    mstr_helper_corrected = pd.DataFrame()
     print(mstr_geocoded_helper.shape)
     #fitler most likely corrupted entries, set variable in the beginning; filtering is slow
     #FILTER: filters entries with the same installation capacity installed at the same address
@@ -41,9 +41,9 @@ for zone in sorted(admin_zones):
             adress_helper['rounded'] = round(adress_helper['InstallierteLeistung'])
             adress_helper = adress_helper.drop_duplicates('rounded')
             del adress_helper['rounded']
-            mstr_bottrop_helper_corrected = mstr_bottrop_helper_corrected.append(adress_helper)
-        print(mstr_bottrop_helper_corrected.shape)
-        mstr_bottrop_helper_corrected.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone), encoding = 'ISO-8859-1')
+            mstr_helper_corrected = mstr_helper_corrected.append(adress_helper)
+        print(mstr_helper_corrected.shape)
+        mstr_helper_corrected.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone), encoding = 'ISO-8859-1')
     else:
         mstr_geocoded_helper.to_file('mstr_split_landkreise/mstr_{}.shp'.format(zone), encoding = 'ISO-8859-1')
 
