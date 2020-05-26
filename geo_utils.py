@@ -58,13 +58,13 @@ def ckdnearest(gdA, gdB):
     :param gdB: must contain a shapely Point geometry column
     :return: concatenated GeoPandas.DataFrame containing all columns of both DataFrames excluding gdB's geometry plus distance in degrees
     """
-    nA = np.array(list(zip(gdA.geometry.x, gdA.geometry.y)))
-    nB = np.array(list(zip(gdB.geometry.x, gdB.geometry.y)))
+    nA = np.array(list(zip(gdA.geometry.x, gdA.geometry.y))) #create geometry list of dataframe gdA
+    nB = np.array(list(zip(gdB.geometry.x, gdB.geometry.y))) #create geometry list of dataframe gdB
     btree = cKDTree(nB)
-    dist, idx = btree.query(nA, k=1)
+    dist, idx = btree.query(nA, k=1) #find nearest neighbor, k > 1 searches for more (k) neighbors, however following code needs to be adjusted to do so
     gdf = pd.concat(
         [gdA.reset_index(drop=True), gdB.loc[idx, gdB.columns != 'geometry'].reset_index(drop=True),
-         pd.Series(dist, name='dist')], axis=1)
+         pd.Series(dist, name='dist')], axis=1) #concat new dataframe with features of both dataframes
     gdf = gpd.GeoDataFrame(gdf)
     return gdf
 
@@ -75,10 +75,10 @@ def add_missing_addresses_to_rooftopdata(rooftops):
     :param rooftops: rooftop GeoPandas DataFrame with missing addresses
     :return: a new dataframe which adds the associated address and the distance to it
     """
-    rooftops['centroid'] = rooftops['geometry'].centroid
-    rooftops['dist'] = 0
-    no_data_rooftops = rooftops[rooftops['PostalCode'] == 'No data']
-    rooftops = rooftops[rooftops['PostalCode'] != 'No data']
+    rooftops['centroid'] = rooftops['geometry'].centroid #extract centroid of geometries
+    rooftops['dist'] = 0 #create distance column
+    no_data_rooftops = rooftops[rooftops['PostalCode'] == 'No data'] #extract rows where no address is given
+    rooftops = rooftops[rooftops['PostalCode'] != 'No data'] #exclude rows in original dataframe where no address is given
     no_data_rooftops['polygon'] = no_data_rooftops['geometry']
     no_data_rooftops['geometry'] = no_data_rooftops['centroid']
     no_data_rooftops['x_nodata'], no_data_rooftops['y_nodata'] = no_data_rooftops.geometry.x, no_data_rooftops.geometry.y
@@ -153,7 +153,7 @@ def GMLpoints(ring, convert = False):
         #-- Store the coordinate tuple
         for i in range(0, len(coords), 3):
             if convert:
-                coords[i], coords[i+1] = transform(inProj,outProj,coords[i], coords[i+1])
+                coords[i], coords[i+1] = transform(inProj,outProj,coords[i], coords[i+1]) #transform coordinates to EPSG 4326
             listPoints.append((float(coords[i]), float(coords[i+1]), float(coords[i+2])))
     elif len(ring.findall('.//{%s}pos' %ns_gml)) > 0:
         points = ring.findall('.//{%s}pos' %ns_gml)
@@ -164,7 +164,7 @@ def GMLpoints(ring, convert = False):
             #-- Store the coordinate tuple
             for i in range(0, len(coords), 3):
                 if convert:
-                    coords[i], coords[i+1] = transform(inProj,outProj,coords[i], coords[i+1])
+                    coords[i], coords[i+1] = transform(inProj,outProj,coords[i], coords[i+1]) #transform coordinates to EPSG 4326
                 listPoints.append((float(coords[i]), float(coords[i+1]), float(coords[i+2])))
     else:
         return None
@@ -678,23 +678,30 @@ class Building(object):
             # -- additional feature extraction
             for child in self.xml.getiterator():
                 if child.tag == '{%s}stringAttribute' % ns_citygml_generics:
+                    #extract dachhoehe
                     if child.get('name') == 'DatenquelleDachhoehe':
                         for grandchild in child:
                             self.datenquelle_dachhoehe = grandchild.text
+                    #extract gemeindeschluessel
                     elif child.get('name') == 'Gemeindeschluessel':
                         for grandchild in child:
                             self.gemeindeschluessel = grandchild.text
+                    #extract datenquelle bodenhoehe
                     elif child.get('name') == 'DatenquelleBodenhoehe':
                         for grandchild in child:
                             self.datenquelle_bodenhoehe = grandchild.text
+                    #extract datenquelle lage
                     elif child.get('name') == 'DatenquelleLage':
                         for grandchild in child:
                             self.datenquelle_lage = grandchild.text
             for child in self.xml.getiterator():
+                #building function
                 if child.tag == '{%s}function' % ns_bldg:
                     self.bldg_function = child.text
+                    #rooftop type
                 elif child.tag == '{%s}roofType' % ns_bldg:
                     self.bldg_roofType = child.text
+                    #measured height
                 elif child.tag == '{%s}measuredHeight' % ns_bldg:
                     self.bldg_measuredHeight = child.text
             # adress extraction
