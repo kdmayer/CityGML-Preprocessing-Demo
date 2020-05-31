@@ -6,7 +6,6 @@ This repository deals with the processing of 3D-geometries provided by the state
 
 The repository requires the packages GeoPandas, scipy, geopy, pandas, numpy, and related typical packages used. 
 
-
 ## File Descriptions
 
 ```bash
@@ -34,6 +33,9 @@ shapefileconversion.py
 ```
 Converts rooftop-CSV files to shapefiles for geoprocessing purposes. 
 
+## Recommended Usage
+
+There is only one dependend process: typically, the 3D geometries are loaded in a ZIP-file and then converted to CSV-files using the rooftopPolygonConverter script. In the next step, these are then converted to rooftop shapefiles using the shapefileconversion.py.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
