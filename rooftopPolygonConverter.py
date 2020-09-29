@@ -4,7 +4,7 @@ from geo_utils import Building, ns_bldg, ns_citygml, ns_gml, convert_3D_2D
 from lxml import etree
 
 DIRECTORY = 'your directory'
-FOLDER = 'Folder of 3D Data ZIP containing multiple gml xml files LoD 2 standard'
+FOLDER = 'Folder of 3D Data directory containing multiple gml xml files LoD 2 standard'
 TOWN = FOLDER.split('_')[3] #creates suffix for administrative zone
 import os
 import glob
