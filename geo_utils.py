@@ -710,12 +710,10 @@ class Building(object):
                     self.city = child.findall('.//{%s}LocalityName' % ns_xAL)[0].text  # city name
                     self.streetNumber = child.findall('.//{%s}ThoroughfareNumber' % ns_xAL)[0].text  # street number
                     self.streetName = child.findall('.//{%s}ThoroughfareName' % ns_xAL)[0].text  # steet name
-                    self.postalCode = child.findall('.//{%s}PostalCodeNumber' % ns_xAL)[0].text  # postal code
                 else:
                     self.city = 'No data'
                     self.streetNumber = 'No data'
                     self.streetName = 'No data'
-                    self.postalCode = 'No data'
             # -- Data for each roof surface required for the computation of the solar stuff
             self.roofdata = {}
             self.walldata = {}
@@ -733,7 +731,7 @@ class Building(object):
             self.wallinfo()
             # ground polygon transformation
             self.groundinfo()
-        except (TypeError, IndexError) as e:
+        except (TypeError) as e:
             print(self.id, ' causes following Exception:', e)
 
     def groundinfo(self):

@@ -3,8 +3,8 @@ import pandas as pd
 from geo_utils import Building, ns_bldg, ns_citygml, ns_gml, convert_3D_2D
 from lxml import etree
 
-DIRECTORY = 'your directory'
-FOLDER = 'Folder of 3D Data directory containing multiple gml xml files LoD 2 standard'
+DIRECTORY = '/Users/benni/Downloads/'
+FOLDER = '3d-gm_lod2_05512000_Bottrop_EPSG25832_CityGML'
 TOWN = FOLDER.split('_')[3] #creates suffix for administrative zone
 import os
 import glob
@@ -44,7 +44,7 @@ for f in glob.glob('*.gml'):#iterate over all GML files
         buildingclasses.append(Building(b, id))
     #extract relevant information from Buildingclasses and create another dictionary
     for bu in buildingclasses:
-        buildingData[bu.id] = {'Building_ID': bu.id, 'City': bu.city, 'PostalCode': bu.postalCode,
+        buildingData[bu.id] = {'Building_ID': bu.id, 'City': bu.city,
                            'Street': bu.streetName, 'StreetNumber': bu.streetNumber,
                            'Gemeindeschluessel': bu.gemeindeschluessel,
                             'RoofData': bu.roofdata,
@@ -60,7 +60,6 @@ for f in glob.glob('*.gml'):#iterate over all GML files
             rooftopData = buildingData[i]["RoofData"][j]
             rooftopData_key[j] = {'Building_ID': buildingData[i]['Building_ID'],
                                   'City': buildingData[i]['City'],
-                                  'PostalCode': buildingData[i]['PostalCode'],
                                   'Street': buildingData[i]['Street'],
                                   'StreetNumber': buildingData[i]['StreetNumber'],
                                   'Gemeindeschluessel': buildingData[i]['Gemeindeschluessel'],
