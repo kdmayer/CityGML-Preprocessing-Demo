@@ -1,0 +1,11 @@
+.idea/
+__pycache__/
+*.csv
+.DS_Store
+
+experimentation/*
+!experimentation/Demo_Notebook.ipynb
+
+data/
+
+assets/
