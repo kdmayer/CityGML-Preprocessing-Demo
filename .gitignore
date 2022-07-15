@@ -5,6 +5,7 @@ __pycache__/
 
 experimentation/*
 !experimentation/Demo_Notebook.ipynb
+!experimentation/CityGML_To_CSV.ipynb
 
 data/
 
