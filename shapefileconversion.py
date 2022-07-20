@@ -34,5 +34,5 @@ if __name__ == "__main__":
         rooftopPolygonDF = pd.read_csv(DIRECTORY + file)
         city = file.split('_')[1][:-4]
         #convert CSV rooftopfile to shapefile, uses 2D rooftopPolygon as geometry; do not change this in the initialization of the function
-        converter(rooftopPolygonDF, prefix = 'polygon', city = city, crs = CRS)
+        converter(rooftopPolygonDF, prefix='polygon', city=city, crs=CRS)
         print('Processed {}'.format(file))

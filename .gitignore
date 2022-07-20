@@ -4,8 +4,9 @@ __pycache__/
 .DS_Store
 
 experimentation/*
-!experimentation/Demo_Notebook.ipynb
-!experimentation/CityGML_To_CSV.ipynb
+!experimentation/Visualize_Image_Locations.ipynb
+!experimentation/CityGML_To_GeoJSON.ipynb
+!experimentation/Download_OpenNRW_from_BBox.ipynb
 
 data/
 
