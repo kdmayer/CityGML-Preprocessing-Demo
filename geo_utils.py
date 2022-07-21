@@ -77,32 +77,43 @@ def add_missing_addresses_to_rooftopdata(rooftops):
     """
     rooftops['centroid'] = rooftops['geometry'].centroid #extract centroid of geometries
     rooftops['dist'] = 0 #create distance column
+
     no_data_rooftops = rooftops[rooftops['PostalCode'] == 'No data'] #extract rows where no address is given
     rooftops = rooftops[rooftops['PostalCode'] != 'No data'] #exclude rows in original dataframe where no address is given
-    no_data_rooftops['polygon'] = no_data_rooftops['geometry']
-    no_data_rooftops['geometry'] = no_data_rooftops['centroid']
-    no_data_rooftops['x_nodata'], no_data_rooftops['y_nodata'] = no_data_rooftops.geometry.x, no_data_rooftops.geometry.y
-    rooftops['polygon'] = rooftops['geometry']
-    rooftops['geometry'] = rooftops['centroid']
-    rooftops['x_address'], rooftops['y_address'] = rooftops.geometry.x, rooftops.geometry.y
-    rooftops_with_adresses = rooftops[['City', 'PostalCode',
-                                                     'Street', 'StreetNumber', 'geometry', 'x_address', 'y_address']]
-    rooftops_with_adresses = rooftops_with_adresses.reset_index(drop = True)
-    no_data_rooftops = no_data_rooftops[['Area', 'Azimuth', 'Building_ID', 'RoofTopID',
-                                         'RooftopType', 'Tilt', 'geometry', 'centroid', 'polygon', 'x_nodata', 'y_nodata']]
-    no_data_rooftops = ckdnearest(no_data_rooftops, rooftops_with_adresses)
-    points_no_data = list(zip(no_data_rooftops['x_nodata'], no_data_rooftops['y_nodata']))
-    address_points = list(zip(no_data_rooftops['x_address'], no_data_rooftops['y_address']))
-    dist = [geopy.distance.vincenty(address, no_data).m for address, no_data in zip(address_points, points_no_data)]
-    no_data_rooftops['dist'] = dist
-    no_data_rooftops['geometry'] = no_data_rooftops['polygon']
-    rooftops['geometry'] = rooftops['polygon']
-    no_data_rooftops = no_data_rooftops.drop(columns = ['centroid', 'polygon', 'x_nodata',
-                                                        'y_nodata','x_address', 'y_address'])
-    rooftops = rooftops.drop(columns = ['centroid', 'polygon', 'x_address', 'y_address'])
-    rooftops = rooftops.append(no_data_rooftops)
-    rooftops.sort_index(inplace = True)
-    return rooftops
+
+    if len(no_data_rooftops) == 0:
+        return rooftops
+
+    else:
+        no_data_rooftops['polygon'] = no_data_rooftops['geometry']
+        no_data_rooftops['geometry'] = no_data_rooftops['centroid']
+        no_data_rooftops['x_nodata'], no_data_rooftops['y_nodata'] = no_data_rooftops.geometry.x, no_data_rooftops.geometry.y
+
+        rooftops['polygon'] = rooftops['geometry']
+        rooftops['geometry'] = rooftops['centroid']
+        rooftops['x_address'], rooftops['y_address'] = rooftops.geometry.x, rooftops.geometry.y
+
+        rooftops_with_adresses = rooftops[['City', 'PostalCode',
+                                                         'Street', 'StreetNumber', 'geometry', 'x_address', 'y_address']]
+        rooftops_with_adresses = rooftops_with_adresses.reset_index(drop = True)
+
+        no_data_rooftops = no_data_rooftops[['Area', 'Azimuth', 'Building_ID', 'RoofTopID',
+                                             'RooftopType', 'Tilt', 'geometry', 'centroid', 'polygon', 'x_nodata', 'y_nodata']]
+        no_data_rooftops = ckdnearest(no_data_rooftops, rooftops_with_adresses)
+
+        points_no_data = list(zip(no_data_rooftops['x_nodata'], no_data_rooftops['y_nodata']))
+        address_points = list(zip(no_data_rooftops['x_address'], no_data_rooftops['y_address']))
+        dist = [geopy.distance.vincenty(address, no_data).m for address, no_data in zip(address_points, points_no_data)]
+
+        no_data_rooftops['dist'] = dist
+        no_data_rooftops['geometry'] = no_data_rooftops['polygon']
+        rooftops['geometry'] = rooftops['polygon']
+        no_data_rooftops = no_data_rooftops.drop(columns = ['centroid', 'polygon', 'x_nodata',
+                                                            'y_nodata','x_address', 'y_address'])
+        rooftops = rooftops.drop(columns = ['centroid', 'polygon', 'x_address', 'y_address'])
+        rooftops = rooftops.append(no_data_rooftops)
+        rooftops.sort_index(inplace = True)
+        return rooftops
 
 def convert_3D_2D(geometry):
     '''
