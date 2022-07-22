@@ -1,6 +1,6 @@
 ## 3D-PV-Locator: Data Pre-processing Repository
 
-Explore the datasets and CityGML pre-processing code for the 3D-PV-Locator paper. When building on this work, please cite our work as indicated below.
+Explore the datasets and CityGML pre-processing code developed for the 3D-PV-Locator paper. When building on this work, please cite our work as indicated below.
 
 ## Demo Notebooks
 
