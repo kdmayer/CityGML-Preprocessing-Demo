@@ -8,11 +8,10 @@ demo_notebooks/*
 !demo_notebooks/download_images_from_openNRW.ipynb
 !demo_notebooks/explore_dataset.ipynb
 
-data/*
-!data/GeoJSON/Test_Run.geojson
-!data/GML/LoD2_32_280_5657_1_NW.gml
-!data/GML/LoD2_32_280_5659_1_NW.gml
-!data/classification_dataset/*.json
+/data/segmentation_dataset
+/data/classification_dataset/OpenNRW_Train_16
+/data/classification_dataset/OpenNRW_Val_16
+/data/classification_dataset/OpenNRW_Test_16
 
 utils/*
 !utils/geo_utils.py
