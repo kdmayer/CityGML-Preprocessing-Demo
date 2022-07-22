@@ -1,4 +1,4 @@
-## Explore the datasets and preprocessing code for the 3D-PV-Locator paper
+## Explore the datasets and CityGML preprocessing code for the 3D-PV-Locator paper
 
 This repository provides you with three demo notebooks.
 
@@ -8,7 +8,7 @@ This notebook allows you to visualize the locations of all the images in our cla
 
 For example, the locations of non-PV images in our training dataset are illustrated below:
 
-![Exemplary Pipeline Output](https://github.com/kdmayer/3D-PV-Locator/blob/master/exemplary_pipeline_output.png)
+![Interactive Map](https://github.com/kdmayer/CityGML-Preprocessing-Demo/blob/main/assets/pv_locations.png?raw=true)
 
 ### Download_Images_from_OpenNRW.ipynb
 
@@ -20,7 +20,7 @@ This notebook demonstrates the code to extract 3D rooftop information from the C
 
 For example, after processing the exemplary .gml files in data/GML/, we can load the extracted rooftop polygons with their respective attributes in QGIS:
 
-
+![Processed CityGML Output](https://github.com/kdmayer/CityGML-Preprocessing-Demo/blob/main/assets/processed_citygml.png?raw=true)
 
 ## Dependencies
 
