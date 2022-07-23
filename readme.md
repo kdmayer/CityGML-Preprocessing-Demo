@@ -28,7 +28,7 @@ For example, after processing the exemplary .gml files in data/GML/, we can load
 
 ## Dependencies
 
-The repository requires the packages GeoPandas, Scipy, Geopy, Pandas, Numpy, and related typical packages used.
+The repository requires the packages GeoPandas, Scipy, Geopy, Pandas, Numpy, Lxml, and related packages used.
 
 ## BibTex Citation:
 
